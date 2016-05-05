@@ -13,9 +13,7 @@ angular.module('toDo', [])
 		})
 	}
 	$scope.getTodos = function() {
-		var user = {
-			username: 'pbuderaski'
-		}
+		var user = 'pbuderaski'
 		testSrvc.fetch(user)
 			.success(function(data) {
 				console.log(data)

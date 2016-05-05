@@ -57,8 +57,8 @@ app.post('/todo', function(req, res, next) {
 	})
 })
 
-app.get('/todo', function(req, res, next) {
-	ToDo.find({ username: 'pbuderaski' })
+app.get('/todo/:username', function(req, res, next) {
+	ToDo.find({ username: req.params.username})
 		.exec(function(err, data) {
 			if(err) {
 				res.status(500)
