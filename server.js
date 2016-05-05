@@ -36,7 +36,6 @@ app.post('/test', function(req, res) {
 	if( !req.body.message ){
 		res.status(404)
 	}
-
 	res.send(req.body.message)
 })
 
@@ -67,6 +66,24 @@ app.get('/todo/:username', function(req, res, next) {
 			res.status(200)
 			res.json(data)
 		})
+})
+
+app.patch('/todo', function(req, res, next) {
+
+	ToDo.findOneAndUpdate({_id: req.body.id }, { done: true }, null, function(err, data) {
+		if (err) {
+			res.status(404)
+			return next(err)
+		}
+			res.status(200).json(data)
+
+
+	})
+})
+
+app.delete('/todo/:id', function(req, res, next) {
+
+
 })
 
 app.listen(port, function() {

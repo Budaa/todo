@@ -27,12 +27,14 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-4 col-sm-offset-4">
-			<div class="checkbox" ng-repeat="todos in todos | orderBy : '-date'">
+			<div class="checkbox" ng-repeat="todos in todos | orderBy : '-done' : '-date' track by todos._id"ng-click="order(todos)">
 			<label>
-				<input type="checkbox" ng-click="deleteTodo(todos._id)">
-				{{todos.body}}
+				<input ng-checked="todos.done" type="checkbox" ng-click="doneTodo(todos._id)">
+				{{todos.body}} 
 			</label>
+			<div ng-click="deleteTodo(todos._id)">x</div>
 			</div>
+
 		</div>
 	</div>
 	</div>
