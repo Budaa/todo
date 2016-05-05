@@ -45,10 +45,15 @@ angular.module('toDo', [])
 
 	$scope.deleteTodo = function(id) {
 		testSrvc.delete(id)
-			.success(function() {
-
+			.success(function(data) {
+				for (var i=$scope.todos.length-1; i>=0; i--) {
+    				if ($scope.todos[i]._id === id) {
+	        			$scope.todos.splice(i, 1)
+	        			break       
+        			}
+        		}
 			}).error(function(err) {
-
+				$scope.todoError.push("There was a problem deleting todo")
 			})
 	}
 

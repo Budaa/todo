@@ -75,14 +75,19 @@ app.patch('/todo', function(req, res, next) {
 			res.status(404)
 			return next(err)
 		}
-			res.status(200).json(data)
+			res.status(200).send(data)
 
 
 	})
 })
 
 app.delete('/todo/:id', function(req, res, next) {
-
+	ToDo.remove({_id: req.params.id}, function(err, data) {
+		if(err) {
+			res.status(404)
+		}
+		res.status(200).json(data)
+	})
 
 })
 
