@@ -15,6 +15,8 @@ app.use(express.static(__dirname));
 app.use(bodyParser.json())
 app.use(logger('dev'))
 
+var value = ""
+
 //ROUTERS
 app.get('/', function(req, res) {
 	res.sendfile('index.html')
@@ -69,16 +71,24 @@ app.get('/todo/:username', function(req, res, next) {
 })
 
 app.patch('/todo', function(req, res, next) {
-
-	ToDo.findOneAndUpdate({_id: req.body.id }, { done: true }, null, function(err, data) {
+	//Check done value
+	ToDo.find({ _id: req.body.id }, 'done', function(err, data) {
 		if (err) {
 			res.status(404)
 			return next(err)
 		}
+		//setting oppisite done value
+		value = !data[0].done
+		//change done value to oppiste
+		ToDo.findOneAndUpdate({_id: req.body.id }, { done: value }, null, function(err, data) {
+			if (err) {
+				res.status(404)
+				return next(err)
+			}
 			res.status(200).send(data)
-
-
+		})
 	})
+
 })
 
 app.delete('/todo/:id', function(req, res, next) {

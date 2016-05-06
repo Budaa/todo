@@ -10,7 +10,6 @@
 	<title></title>
 </head>
 <body ng-controller="mainCtrl">
-	Hello world!<br>
 	<form role="form">
 <!-- 	  <div class="form-group">
 	    <label for="email">Date:</label>
@@ -29,7 +28,7 @@
 		<div class="col-sm-4 col-sm-offset-4">
 			<div class="checkbox" ng-repeat="todos in todos | orderBy : '-done' : '-date' track by todos._id"ng-click="order(todos)">
 			<label>
-				<input ng-checked="todos.done" type="checkbox" ng-click="doneTodo(todos._id)">
+				<input ng-checked="todos.done" type="checkbox" ng-click="doneTodo(todos._id, todos.done)">
 				{{todos.body}} 
 			</label>
 			<div ng-click="deleteTodo(todos._id)">x</div>

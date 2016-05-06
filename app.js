@@ -1,6 +1,6 @@
 angular.module('toDo', [])
 
-.controller('mainCtrl', ['$scope', 'testSrvc', '$filter', function($scope, testSrvc, $filter) {
+.controller('mainCtrl', ['$scope', 'todoSrvc', '$filter', function($scope, todoSrvc, $filter) {
 	$scope.todoError = []
 
 	/**
@@ -9,7 +9,7 @@ angular.module('toDo', [])
 	 * @return {[type]}      [description]
 	 */
 	$scope.createTodo = function(todo){
-		testSrvc.create({
+		todoSrvc.create({
 			body: todo.body,
 			username: 'pbuderaski',
 		}).success(function(res){
@@ -21,7 +21,7 @@ angular.module('toDo', [])
 	}
 	$scope.getTodos = function() {
 		var user = 'pbuderaski'
-		testSrvc.fetch(user)
+		todoSrvc.fetch(user)
 			.success(function(data) {
 				$scope.todos = data 
 			}).error(function(err) {
@@ -29,12 +29,12 @@ angular.module('toDo', [])
 			})
 	}
 	
-	$scope.doneTodo = function(id) {
-		testSrvc.done({id: id})
+	$scope.doneTodo = function(id, status) {
+		todoSrvc.done({id: id})
 			.success(function(data){
 				for (var i=$scope.todos.length-1; i>=0; i--) {
     				if ($scope.todos[i]._id === data._id) {
-	        			$scope.todos[i].done = true
+	        			$scope.todos[i].done = !status
 	        			break       
         			}
         		}
@@ -44,7 +44,7 @@ angular.module('toDo', [])
 	}
 
 	$scope.deleteTodo = function(id) {
-		testSrvc.delete(id)
+		todoSrvc.delete(id)
 			.success(function(data) {
 				for (var i=$scope.todos.length-1; i>=0; i--) {
     				if ($scope.todos[i]._id === id) {
@@ -61,7 +61,7 @@ $scope.getTodos()
 	
 }])
 
-.service('testSrvc', ['$http', function($http){
+.service('todoSrvc', ['$http', function($http){
 	this.create = function(data) {
 		return $http.post('/todo', data)
 	}
