@@ -7,7 +7,8 @@
 	<script type="text/javascript" src="app.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-	<title></title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Todo-App</title>
 </head>
 <body ng-controller="mainCtrl">
 	<form role="form">
@@ -25,14 +26,17 @@
 		{{error}}
 	</div>
 	<div class="row">
-		<div class="col-sm-4 col-sm-offset-4">
-			<div class="checkbox" ng-repeat="todos in todos | orderBy : '-done' : '-date' track by todos._id"ng-click="order(todos)">
+		<div class="col-sm-4 col-sm-offset-4 todo-main">
+			<div class="checkbox text-center todo-each" ng-repeat="todos in todos | orderBy : '-done' : '-date' track by todos._id"ng-click="order(todos)">
 			<label>
 				<input ng-checked="todos.done" type="checkbox" ng-click="doneTodo(todos._id, todos.done)">
 				{{todos.body}} 
 			</label>
-			<div ng-click="deleteTodo(todos._id)">x</div>
-			</div>
+			<div class="row">
+				<div class="col-sm-4 col-sm-offset-8">
+					<button type="button" class="btn btn-danger" ng-click="deleteTodo(todos._id)">Delete</button>	
+			</div>		
+		</div>
 
 		</div>
 	</div>

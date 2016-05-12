@@ -1,0 +1,13 @@
+.todo-main {
+	/*border: 1px solid grey;*/
+}
+
+.todo-each {
+	border-top: 1px solid #CCC;
+	padding-bottom: 20px;
+	padding-top: 20px;
+}
+
+.todo-each:first-of-type {
+	border: none;
+}
