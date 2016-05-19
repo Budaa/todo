@@ -33,11 +33,12 @@
 	    <label for="email">Date:</label>
 	    <input type="email" class="form-control" id="email" placeholder="dd/mm/yyyy">
 	  </div> -->
-	  <div class="form-group">
+	  <div class="form-group col-sm-8 col-sm-offset-2">
 	    <label for="body">ToDo</label>
 	    <input type="text" class="form-control" id="body" ng-model="todo.body">
+	    <br>
+	  	<button type="submit" class="btn btn-default center-block" ng-click="createTodo(todo)">Add</button>
 	  </div>
-	  <button type="submit" class="btn btn-default" ng-click="createTodo(todo)">Submit</button>
 	</form>
 	<div ng-repeat="error in todoError" ng-show="todoError" class="errorIndicator">
 		{{error}}
