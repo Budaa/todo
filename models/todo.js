@@ -14,9 +14,15 @@ var ToDo = db.model('ToDo', {
 		required: true,
 		default: Date.now
 	},
-	deadline: {
-		type: Date,
-		required: false
+	// 0 - Today
+	// 1 - Tomorrow
+	// 2 - This Week
+	// 3 - Some day
+	until: {
+		type: Number,
+		min: 0,
+		max: 3,
+		required: true
 	},
 	done: {
 		type: Boolean,
