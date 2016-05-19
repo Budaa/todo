@@ -1,7 +1,13 @@
 angular.module('toDo', [])
 
 .controller('mainCtrl', ['$scope', 'todoSrvc', '$filter', function($scope, todoSrvc, $filter) {
+	/**
+	 * Function to trim whitespaces etc from edges of the string
+	 * @return {[string]} [return trimed string]
+	 */
+
 	$scope.todoError = []
+
 
 	/**
 	 * Creating new Todo for user
@@ -9,6 +15,16 @@ angular.module('toDo', [])
 	 * @return {[type]}      [description]
 	 */
 	$scope.createTodo = function(todo){
+		String.prototype.trim = function () {
+	    	return this.replace(/^\s*/, "").replace(/\s*$/, "");
+		}
+
+		if( todo === undefined) {
+			$.alert({
+				title: "Error",
+				content: "error!"
+			})
+		}
 		todoSrvc.create({
 			body: todo.body,
 			username: 'pbuderaski',
