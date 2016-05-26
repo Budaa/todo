@@ -17,6 +17,7 @@
   "dependencies": {
     "angular": "^1.5.5",
     "bootstrap": "^3.3.6",
-    "jquery-confirm2": "craftpip/jquery-confirm#^2.5.1"
+    "jquery-confirm2": "craftpip/jquery-confirm#^2.5.1",
+    "angular-route": "^1.5.5"
   }
 }

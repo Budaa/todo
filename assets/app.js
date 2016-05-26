@@ -1,33 +1,56 @@
-angular.module('toDo', [])
+/**
+ * TODO:
+ * Fix user error raporting (multiple displaying, deleting, precise, etc)
+ */
 
-.controller('mainCtrl', ['$scope', 'todoSrvc', '$filter', function($scope, todoSrvc, $filter) {
+angular.module('toDo', [
+	'ngRoute'
+])
+angular.module('toDo')
+.config(function($routeProvider) {
+	$routeProvider
+	  .when('/', {controller: 'TodosCtrl', templateUrl: 'todos.html'})
+	  .when('/register', {controller: 'RegisterCtrl', templateUrl: 'register.html'})
+	  .when('/login', {controller: 'LoginCtrl', templateUrl: 'login.html'})
+})
+
+angular.module('toDo')
+.controller('TodosCtrl', ['$scope', 'todoSrvc', '$filter', function($scope, todoSrvc, $filter) {
+
 	/**
-	 * Function to trim whitespaces etc from edges of the string
-	 * @return {[string]} [return trimed string]
+	 * Error loger. Please format messeges for user output
+	 * @type {Array}
 	 */
-
 	$scope.todoError = []
 
 
 	/**
 	 * Creating new Todo for user
 	 * @param  {[json]} todo [body and username]
-	 * @return {[type]}      [description]
+	 * @return {[type]}      [Error message or seting $scope.body to null and pushing new todo to view]
 	 */
 	$scope.createTodo = function(todo){
+		/**
+		 * Function to trim whitespaces etc from edges of the string
+		 * @return {[string]} [return trimed string]
+		 */
 		String.prototype.trim = function () {
 	    	return this.replace(/^\s*/, "").replace(/\s*$/, "");
 		}
-
-		if( todo === undefined) {
-			$.alert({
-				title: "Error",
-				content: "error!"
-			})
+		if (todo) {
+			todo.body.trim()
 		}
+		if( todo === undefined || todo.body === "") {
+			$scope.todoError.push("Todo can not be empty!")
+			return false
+		}
+
+		todo.until = parseInt(todo.until, 10)
+
 		todoSrvc.create({
 			body: todo.body,
 			username: 'pbuderaski',
+			until: todo.until
 		}).success(function(res){
 			$scope.todos.push(res)
 			$scope.todo.body = ""
@@ -35,6 +58,8 @@ angular.module('toDo', [])
 			$scope.todoError.push("There was a problem adding your post to the database and it wasn't saved")
 		})
 	}
+
+
 	$scope.getTodos = function() {
 		var user = 'pbuderaski'
 		todoSrvc.fetch(user)
@@ -44,6 +69,7 @@ angular.module('toDo', [])
 				$scope.todoError.push("There was a problem getting your data")				
 			})
 	}
+	
 	
 	$scope.doneTodo = function(id, status) {
 		todoSrvc.done({id: id})
@@ -76,23 +102,23 @@ angular.module('toDo', [])
 $scope.getTodos()
 	
 }])
-
+angular.module('toDo')
 .service('todoSrvc', ['$http', function($http){
 	this.create = function(data) {
-		return $http.post('/todo', data)
+		return $http.post('/api/todo', data)
 	}
 
 	//TODO
 	//change for better user verification 
 	this.fetch = function(user) {
-		return $http.get('/todo/' + user)
+		return $http.get('/api/todo/' + user)
 	}
 
 	this.done = function(id) {
-		return $http.patch('/todo',  id)
+		return $http.patch('/api/todo',  id)
 	}
 
 	this.delete = function(id) {
-		return $http.delete('/todo/' + id)
+		return $http.delete('/api/todo/' + id)
 	}
 }])

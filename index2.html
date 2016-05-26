@@ -4,13 +4,14 @@
 	<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
-	<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
+	<script type="text/javascript" src="/app.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<title>Todo-App</title>
 </head>
-<body ng-controller="mainCtrl">
+<body ng-controller="TodosCtrl">
 	<nav class="navbar navbar-default">
 	    <div class="container-fluid">
 	        <div class="navbar-header">
@@ -28,6 +29,10 @@
             </ul>
 	    </div>
 	</nav>
+	<div ng-repeat="error in todoError track by $index" ng-show="todoError" class="form-group col-sm-8 col-sm-offset-2 text-center alert alert-danger">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			{{error}}
+	</div>
 	<form role="form">
 <!-- 	  <div class="form-group">
 	    <label for="email">Date:</label>
@@ -38,17 +43,17 @@
 
 	    <input type="text" class="form-control" id="body" ng-model="todo.body">
 
-	    <div class="radio">
-	    	<label><input type="radio" name="until">Today</label>
+	    <div class="radio" ng-init="todo.until = 0">
+	    	<label><input type="radio" name="until" ng-model="todo.until" value="0">Today</label>
 	    </div>
 	    <div class="radio">
-	    	<label><input type="radio" name="until">Tomorrow</label>
+	    	<label><input type="radio" name="until" ng-model="todo.until" value="1">Tomorrow</label>
 	    </div>
 	    <div class="radio">
-	    	<label><input type="radio" name="until">This week</label>
+	    	<label><input type="radio" name="until" ng-model="todo.until" value="2">This week</label>
 	    </div>
 	    <div class="radio">
-	    	<label><input type="radio" name="until">Some day</label>
+	    	<label><input type="radio" name="until" ng-model="todo.until" value="3">Some day</label>
 	    </div>
 
 	    <br>
@@ -56,12 +61,9 @@
 	  	<button type="submit" class="btn btn-default" ng-click="createTodo(todo)">Add</button>
 	  </div>
 	</form>
-	<div ng-repeat="error in todoError" ng-show="todoError" class="errorIndicator">
-		{{error}}
-	</div>
 	<div class="row">
 		<div class="col-sm-4 col-sm-offset-4 todo-main">
-			<div class="checkbox text-center todo-each" ng-repeat="todos in todos | orderBy : '-done' : '-date' track by todos._id"ng-click="order(todos)">
+			<div class="checkbox text-center todo-each" ng-repeat="todos in todos | orderBy : '-done' : '-until': '-date' track by todos._id"ng-click="order(todos)">
 			<label>
 				<input ng-checked="todos.done" type="checkbox" ng-click="doneTodo(todos._id, todos.done)">
 				{{todos.body}} 
