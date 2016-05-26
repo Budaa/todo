@@ -23,6 +23,7 @@ app.use(require('./controllers/static'))
 //API
 //TODO
 app.use('/api/todo', require('./controllers/api/todos'))
+app.use('/api/user', require('./controllers/api/users'))
 
 
 //LISTENER
