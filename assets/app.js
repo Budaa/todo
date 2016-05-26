@@ -7,25 +7,11 @@ angular.module('toDo', [
 	'ngRoute'
 ])
 angular.module('toDo')
-
-.controller('LoginCtrl', ['$scope', function($scope){
-
-	$scope.loginUser = function(data) {
-		console.log(data.username)
-	}
-
-}])
-angular.module('toDo')
-
-.service('loginSrvc', ['$http', function($http){
-	
-}])
-angular.module('toDo')
 .config(function($routeProvider) {
 	$routeProvider
 	  .when('/', {controller: 'TodosCtrl', templateUrl: 'todos.html'})
-	  .when('/register', {controller: 'RegisterCtrl', templateUrl: 'register.html'})
-	  .when('/login', {controller: 'LoginCtrl', templateUrl: 'login.html'})
+	  .when('/register', {controller: 'UserCtrl', templateUrl: 'register.html'})
+	  .when('/login', {controller: 'UserCtrl', templateUrl: 'login.html'})
 	  .otherwise({redirectTo: '/'})
 })
 
@@ -135,5 +121,59 @@ angular.module('toDo')
 
 	this.delete = function(id) {
 		return $http.delete('/api/todo/' + id)
+	}
+}])
+angular.module('toDo')
+
+.controller('UserCtrl', ['$scope', 'userSrvc', function($scope, userSrvc){
+//LOGIN
+	$scope.loginUser = function(data) {
+		
+	}
+
+
+//REGISTER NEW USER
+	$scope.registerError = []
+	$scope.registerUser = function(data) {
+		if(data.password != data.password2){
+			$scope.registerError.push("Passwords don't match. Please try again")
+			$scope.register.password = $scope.register.password2 = ""
+			return false
+		}
+		userSrvc.exist({
+			email: data.email
+		}).then(function() {
+			userSrvc.register({
+				email: data.email,
+				password: data.password
+			}).then(function() {
+				console.log('user created')
+			}, function(err) {
+				console.log(err)
+			})
+		}, function(err){
+			$scope.registerError.push("This email address exist in our database already. Please try another email")
+			$scope.register.email = ""
+			return false			
+		})
+
+
+	}
+
+//DELETE USER
+	$scope.deleteUSer = function(data) {
+
+	}
+
+}])
+angular.module('toDo')
+
+.service('userSrvc', ['$http', function($http){
+	this.exist = function(email) {
+		return $http.get('/api/user/register/' + email)
+	}
+
+	this.register = function(data) {
+		return $http.post('/api/user/register', data)
 	}
 }])

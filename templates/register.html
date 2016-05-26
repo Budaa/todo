@@ -1,0 +1,13 @@
+<div ng-repeat="error in registerError track by $index" ng-show="registerError" class="form-group col-sm-8 col-sm-offset-2 text-center alert alert-danger">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		{{error}}
+</div>
+<div class="form-group col-sm-8 col-sm-offset-2">
+	<label>Register</label>
+	<form role="form">
+		<input type="email" class="form-control" id="email" ng-model="register.email" placeholder="email"><br>
+		<input type="password" class="form-control" id="password" ng-model="register.password" placeholder="password"><br>
+		<input type="password" class="form-control" id="password" ng-model="register.password2" placeholder="repeat password"><br>
+		<button type="submit" class="btn btn-success" ng-click="registerUser(register)">Create account</button>
+	</form>
+</div>
