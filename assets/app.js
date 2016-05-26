@@ -7,11 +7,26 @@ angular.module('toDo', [
 	'ngRoute'
 ])
 angular.module('toDo')
+
+.controller('LoginCtrl', ['$scope', function($scope){
+
+	$scope.loginUser = function(data) {
+		console.log(data.username)
+	}
+
+}])
+angular.module('toDo')
+
+.service('loginSrvc', ['$http', function($http){
+	
+}])
+angular.module('toDo')
 .config(function($routeProvider) {
 	$routeProvider
 	  .when('/', {controller: 'TodosCtrl', templateUrl: 'todos.html'})
 	  .when('/register', {controller: 'RegisterCtrl', templateUrl: 'register.html'})
 	  .when('/login', {controller: 'LoginCtrl', templateUrl: 'login.html'})
+	  .otherwise({redirectTo: '/'})
 })
 
 angular.module('toDo')
