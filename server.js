@@ -2,6 +2,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var logger = require('morgan')
 var db = require('./db')
+var config = require('./config')
 
 //MODELS
 var User = require('./models/user')

@@ -15,12 +15,12 @@ var User = db.model('User', {
 		type: String,
 		required: true,
 		select: false
-	}
+	},
 	dateCreated: {
 		type: Date,
 		required: true,
 		default: Date.now
-	}
+	},
 	admin: {
 		type: Boolean,
 		required: true,
