@@ -8,6 +8,7 @@ angular.module('toDo')
 
 
 //REGISTER NEW USER
+	//register errprs array
 	$scope.registerError = []
 	$scope.registerUser = function(data) {
 		if(data.password != data.password2){
@@ -15,9 +16,11 @@ angular.module('toDo')
 			$scope.register.password = $scope.register.password2 = ""
 			return false
 		}
+		//check if user exist in DB
 		userSrvc.exist({
 			email: data.email
 		}).then(function() {
+			//create new user
 			userSrvc.register({
 				email: data.email,
 				password: data.password
