@@ -22,6 +22,7 @@ angular.module('toDo')
 			password: data.password
 		}).then(function() {
 			console.log('user created')
+			//login user straight away
 		}, function(err) {
 			$scope.registerError.push("This email address exist in our database already. Please try another email")
 			$scope.register.email = ""
@@ -32,7 +33,7 @@ angular.module('toDo')
 
 //DELETE USER
 	$scope.deleteUSer = function(data) {
-
+		
 	}
 
 }])
