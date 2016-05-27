@@ -16,25 +16,17 @@ angular.module('toDo')
 			$scope.register.password = $scope.register.password2 = ""
 			return false
 		}
-		//check if user exist in DB
-		userSrvc.exist({
-			email: data.email
+		//create new user
+		userSrvc.register({
+			email: data.email,
+			password: data.password
 		}).then(function() {
-			//create new user
-			userSrvc.register({
-				email: data.email,
-				password: data.password
-			}).then(function() {
-				console.log('user created')
-			}, function(err) {
-				console.log(err)
-			})
-		}, function(err){
+			console.log('user created')
+		}, function(err) {
 			$scope.registerError.push("This email address exist in our database already. Please try another email")
 			$scope.register.email = ""
-			return false			
+			console.log(err)
 		})
-
 
 	}
 
