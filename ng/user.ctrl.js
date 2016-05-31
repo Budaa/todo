@@ -2,8 +2,19 @@ angular.module('toDo')
 
 .controller('UserCtrl', ['$scope', 'userSrvc', function($scope, userSrvc){
 //LOGIN
+	$scope.loginError = []
 	$scope.loginUser = function(data) {
-		
+		console.log(data)
+		userSrvc.login({
+			email: data.email,
+			password: data.password
+		}).then(function(token) {
+			//sett the token
+			console.log(token)
+		}, function(err){
+			//sett err notification
+			console.log(err)
+		})		
 	}
 
 

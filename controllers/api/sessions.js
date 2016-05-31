@@ -15,24 +15,27 @@ router.post('/login', function(req, res, next) {
 	if(req.body.email == '' || req.body.password == '') {
 		res.status(400).send({error: 'Email or password wasn\'t provided'})
 	}
+	var hash = bcrypt.hashSync(req.body.password, 10)
 //CHecking if user exist
-	User.find({ email: req.body.email}, function(err, data) {
-		if(data.length) {
-			//checking if password is correct
-			bcrypt.compare(req.body.password, data.password, function(err, data) {
-				if(err) {
-					throw next(err)
-				}
-				if(!data) {
-					res.status(403).send({error: 'Wrong password.'})
-				}else {
-					//setting and sending jwt token
-					var token = jwt.encode({email: req.body.email, password: bcrypt.hash(req.body.password, 10)}, config.secret)
-					res.send(token)
-				}
-			})
-		}
-	})
+	User.findOne({ email: req.body.email})
+		.select('password')
+		.exec(function(err, data) {
+			if(err) {
+				throw next(err)
+			}
+			if(data) {
+				//checking if password is correct
+				bcrypt.compare(req.body.password, data.password, function(err, result) {
+					if(err) { throw next(err) }
+					if(result) {
+						var token = jwt.encode({email: req.body.email}, config.secret)
+						res.send(token)						
+					}else {
+						res.status(403).send({error: 'Wrong password.'})
+					}
+				})
+			}
+		})
 })
 
 module.exports = router
