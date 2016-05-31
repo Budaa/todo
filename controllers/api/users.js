@@ -12,10 +12,12 @@ router.post('/register', function(req, res, next) {
 	User.find({ email: user.email}, function(err, data) {
 		if(data.length) {
 			console.log(data)
+			res.status(403)
 			return next("User already exist")
 		}
 		bcrypt.hash(req.body.password, 10, function(err, hash) {
 			if (err) {
+				res.status(403)
 				return next(err)
 			}
 			user.password = hash

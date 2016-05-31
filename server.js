@@ -12,6 +12,8 @@ var app = express()
 var port = process.env.PORT || 3000
 app.use(express.static(__dirname));
 
+app.set('secret', config.secret)
+
 app.use(bodyParser.json())
 app.use(logger('dev'))
 
@@ -25,6 +27,7 @@ app.use(require('./controllers/static'))
 //TODO
 app.use('/api/todo', require('./controllers/api/todos'))
 app.use('/api/user', require('./controllers/api/users'))
+app.use('/api/session', require('./controllers/api/sessions'))
 
 
 //LISTENER
