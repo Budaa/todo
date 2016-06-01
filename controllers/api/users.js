@@ -62,7 +62,15 @@ router.post('/register', function(req, res, next) {
 	})
 })
 
+router.get('/', function(req, res, next) {
+	if(req.headers['x-auth']) {
+		var auth = jwt.decode(req.headers['x-auth'], config.secret)
+		res.status(200).send(auth)
+	}else {
+		res.status(404).send({error: "You aren't logged in"})
+	}
 
+})
 router.get('/:username', function(req, res, next) {
 
 })

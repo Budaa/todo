@@ -1,15 +1,27 @@
 angular.module('toDo')
 
 .service('userSrvc', ['$http', function($http){
-	this.exist = function(email) {
+	var svc = this
+	svc.exist = function(email) {
 		return $http.get('/api/user/register/' + email)
 	}
 
-	this.login = function(data) {
+	svc.login = function(data) {
 		return $http.post('/api/user/login', data)
+			.then(function(token) {
+				$http.defaults.headers.common['X-Auth'] = token.data
+				return svc.getUser()
+			})
 	}
 
-	this.register = function(data) {
+	svc.getUser = function() {
+		return $http.get('/api/user')
+	}
+
+	svc.register = function(data) {
 		return $http.post('/api/user/register', data)
+	}
+
+	svc.startSession = function(token) {
 	}
 }])

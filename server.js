@@ -17,7 +17,7 @@ app.set('secret', config.secret)
 app.use(bodyParser.json())
 app.use(logger('dev'))
 
-
+app.use(require('./auth'))
 
 //CONTROLLERS
 //STATIC
