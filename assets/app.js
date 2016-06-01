@@ -139,6 +139,7 @@ angular.module('toDo')
 		}, function(err){
 			//sett err notification
 			console.log(err)
+			console.log(err.data.error)
 		})		
 	}
 
@@ -181,7 +182,7 @@ angular.module('toDo')
 	}
 
 	this.login = function(data) {
-		return $http.post('/api/session/login', data)
+		return $http.post('/api/user/login', data)
 	}
 
 	this.register = function(data) {

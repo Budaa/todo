@@ -14,6 +14,7 @@ angular.module('toDo')
 		}, function(err){
 			//sett err notification
 			console.log(err)
+			console.log(err.data.error)
 		})		
 	}
 
