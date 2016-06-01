@@ -7,7 +7,9 @@ angular.module('toDo')
 	 * @type {Array}
 	 */
 	$scope.todoError = []
-
+	if(!$scope.currentUser){
+		$scope.todoError.push('Please log in to see this section')
+	}
 
 	/**
 	 * Creating new Todo for user
@@ -34,7 +36,7 @@ angular.module('toDo')
 
 		todoSrvc.create({
 			body: todo.body,
-			username: 'pbuderaski',
+			username: $scope.currentUser.email,
 			until: todo.until
 		}).success(function(res){
 			$scope.todos.push(res)
