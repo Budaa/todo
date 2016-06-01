@@ -1,6 +1,6 @@
 angular.module('toDo')
 
-.controller('UserCtrl', ['$scope', 'userSrvc', function($scope, userSrvc){
+.controller('UserCtrl', ['$scope', '$location', 'userSrvc', function($scope, $location, userSrvc){
 //LOGIN
 	//Login Error array
 	$scope.loginError = []
@@ -8,14 +8,15 @@ angular.module('toDo')
 		userSrvc.login({
 			email: data.email,
 			password: data.password
-		}).then(function(data) {
+		}).then(function(res) {
 			//logged in!
-			$scope.currentUser = {
-				email: data.email
-			}
-			window.location.href = "/"
-		}, function(err)
-	{		//sett err notification
+			$scope.currentUser = res.data.email
+			$scope.$emit('login', {
+				email: res.data.email
+			})
+			$location.path('/')
+		}, function(err){
+			//sett err notification
 			console.log(err)
 			console.log(err.data.error)
 		})		

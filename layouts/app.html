@@ -5,7 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<title>Todo-App</title>
 </head>
-<body ng-app="toDo">
+<body ng-app="toDo" ng-controller="MainCtrl">
 
 	<!-- NAVBAR -->
 	<nav class="navbar navbar-default">
@@ -20,8 +20,9 @@
 	            <li><a href="#">Settings</a></li> 
 	        </ul>
 	        <ul class="nav navbar-nav navbar-right">
-		        <li><a href="#/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li><a href="#/login"><span class="glyphicon glyphicon-log-in"></span> Sign In</a></li>
+		        <li ng-hide="currentUser"><a href="#/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li ng-hide="currentUser"><a href="#/login"><span class="glyphicon glyphicon-log-in"></span> Sign In</a></li>
+                <li ng-show="currentUser"><a href="#/user">{{currentUser.email}}</a></li>
             </ul>
 	    </div>
 	</nav>
