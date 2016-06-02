@@ -12,6 +12,9 @@ angular.module('toDo')
 	$scope.$on('login', function(event, data) {
 		$scope.currentUser = data
 	}) 
+	$scope.$on('logOut', function(){
+		$scope.currentUser = ''
+	})
 }])
 angular.module('toDo')
 .config(function($routeProvider) {
@@ -30,9 +33,8 @@ angular.module('toDo')
 	 * @type {Array}
 	 */
 	$scope.todoError = []
-	if(!$scope.currentUser){
-		$scope.todoError.push('Please log in to see this section')
-	}
+
+
 
 	/**
 	 * Creating new Todo for user
@@ -41,7 +43,7 @@ angular.module('toDo')
 	 */
 	$scope.createTodo = function(todo){
 		/**
-		 * Function to trim whitespaces etc from edges of the string
+		 * Function to trim whitespaces  from edges of the string
 		 * @return {[string]} [return trimed string]
 		 */
 		String.prototype.trim = function () {
@@ -71,7 +73,7 @@ angular.module('toDo')
 
 
 	$scope.getTodos = function() {
-		var user = 'pbuderaski'
+		var user = $scope.currentUser.email
 		todoSrvc.fetch(user)
 			.success(function(data) {
 				$scope.todos = data 
@@ -108,9 +110,13 @@ angular.module('toDo')
 				$scope.todoError.push("There was a problem deleting todo")
 			})
 	}
-
-$scope.getTodos()
 	
+
+	if(!$scope.currentUser){
+		$scope.todoError.push('Please log in to see this section')
+	}else {
+		$scope.getTodos()
+	}
 }])
 angular.module('toDo')
 .service('todoSrvc', ['$http', function($http){
@@ -144,7 +150,6 @@ angular.module('toDo')
 			password: data.password
 		}).then(function(res) {
 			//logged in!
-			$scope.currentUser = res.data.email
 			$scope.$emit('login', {
 				email: res.data.email
 			})
@@ -154,6 +159,12 @@ angular.module('toDo')
 			console.log(err)
 			console.log(err.data.error)
 		})		
+	}
+
+	$scope.logOut = function() {
+		$scope.$emit('logOut')
+		userSrvc.logout()
+
 	}
 
 
@@ -201,6 +212,11 @@ angular.module('toDo')
 				$http.defaults.headers.common['X-Auth'] = token.data
 				return svc.getUser()
 			})
+	}
+
+	svc.logout = function(){
+		$http.defaults.headers.common['X-Auth'] = ''
+		return true
 	}
 
 	svc.getUser = function() {

@@ -10,7 +10,6 @@ angular.module('toDo')
 			password: data.password
 		}).then(function(res) {
 			//logged in!
-			$scope.currentUser = res.data.email
 			$scope.$emit('login', {
 				email: res.data.email
 			})
@@ -20,6 +19,12 @@ angular.module('toDo')
 			console.log(err)
 			console.log(err.data.error)
 		})		
+	}
+
+	$scope.logOut = function() {
+		$scope.$emit('logOut')
+		userSrvc.logout()
+
 	}
 
 

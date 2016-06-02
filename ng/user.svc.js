@@ -14,6 +14,11 @@ angular.module('toDo')
 			})
 	}
 
+	svc.logout = function(){
+		$http.defaults.headers.common['X-Auth'] = ''
+		return true
+	}
+
 	svc.getUser = function() {
 		return $http.get('/api/user')
 	}

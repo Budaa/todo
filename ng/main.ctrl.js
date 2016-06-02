@@ -4,4 +4,7 @@ angular.module('toDo')
 	$scope.$on('login', function(event, data) {
 		$scope.currentUser = data
 	}) 
+	$scope.$on('logOut', function(){
+		$scope.currentUser = ''
+	})
 }])

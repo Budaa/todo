@@ -7,9 +7,8 @@ angular.module('toDo')
 	 * @type {Array}
 	 */
 	$scope.todoError = []
-	if(!$scope.currentUser){
-		$scope.todoError.push('Please log in to see this section')
-	}
+
+
 
 	/**
 	 * Creating new Todo for user
@@ -18,7 +17,7 @@ angular.module('toDo')
 	 */
 	$scope.createTodo = function(todo){
 		/**
-		 * Function to trim whitespaces etc from edges of the string
+		 * Function to trim whitespaces  from edges of the string
 		 * @return {[string]} [return trimed string]
 		 */
 		String.prototype.trim = function () {
@@ -48,7 +47,7 @@ angular.module('toDo')
 
 
 	$scope.getTodos = function() {
-		var user = 'pbuderaski'
+		var user = $scope.currentUser.email
 		todoSrvc.fetch(user)
 			.success(function(data) {
 				$scope.todos = data 
@@ -85,7 +84,11 @@ angular.module('toDo')
 				$scope.todoError.push("There was a problem deleting todo")
 			})
 	}
-
-$scope.getTodos()
 	
+
+	if(!$scope.currentUser){
+		$scope.todoError.push('Please log in to see this section')
+	}else {
+		$scope.getTodos()
+	}
 }])
