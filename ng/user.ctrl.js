@@ -21,11 +21,10 @@ angular.module('toDo')
 		})		
 	}
 
-	$scope.logOut = function() {
+	$scope.$on('logOut', function() {
 		userSrvc.logout()
-		$scope.$emit('logOut')
 		$location.path('/login')
-	}
+	})
 
 
 //REGISTER NEW USER
@@ -53,7 +52,7 @@ angular.module('toDo')
 	}
 
 //DELETE USER
-	$scope.deleteUSer = function(data) {
+	$scope.deleteUser = function(data) {
 		
 	}
 

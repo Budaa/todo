@@ -8,13 +8,23 @@ angular.module('toDo', [
 ])
 angular.module('toDo')
 
-.controller('MainCtrl', ['$scope', function($scope){
+.controller('MainCtrl', ['$scope', 'userSrvc', '$location', function($scope, userSrvc, $location){
+	if(!$scope.currentUser && window.localStorage.token) {
+		userSrvc.startSession(window.localStorage.token)
+		.then(function(data){
+			$scope.currentUser = data.data
+		})
+	}
 	$scope.$on('login', function(event, data) {
 		$scope.currentUser = data
 	}) 
-	$scope.$on('logOut', function(){
+
+	$scope.logoutUser = function(){
 		$scope.currentUser = ''
-	})
+		window.localStorage.token = ''
+		userSrvc.logout()
+		$location.path('/login')
+	}
 }])
 angular.module('toDo')
 .config(function($routeProvider) {
@@ -161,11 +171,10 @@ angular.module('toDo')
 		})		
 	}
 
-	$scope.logOut = function() {
+	$scope.$on('logOut', function() {
 		userSrvc.logout()
-		$scope.$emit('logOut')
 		$location.path('/login')
-	}
+	})
 
 
 //REGISTER NEW USER
@@ -193,7 +202,7 @@ angular.module('toDo')
 	}
 
 //DELETE USER
-	$scope.deleteUSer = function(data) {
+	$scope.deleteUser = function(data) {
 		
 	}
 
@@ -208,9 +217,8 @@ angular.module('toDo')
 
 	svc.login = function(data) {
 		return $http.post('/api/user/login', data)
-			.then(function(token) {
-				$http.defaults.headers.common['X-Auth'] = token.data
-				return svc.getUser()
+			.then(function(token) {	
+				return svc.startSession(token.data)
 			})
 	}
 
@@ -227,6 +235,14 @@ angular.module('toDo')
 		return $http.post('/api/user/register', data)
 	}
 
-	svc.startSession = function(token) {
+	svc.startSession = function(token, remember = true) {
+		$http.defaults.headers.common['X-Auth'] = token
+		if(remember){
+			window.localStorage.token = token
+		}
+		return svc.getUser()
+			.then(function(data){
+				return data
+			})
 	}
 }])

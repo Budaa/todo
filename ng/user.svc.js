@@ -8,9 +8,8 @@ angular.module('toDo')
 
 	svc.login = function(data) {
 		return $http.post('/api/user/login', data)
-			.then(function(token) {
-				$http.defaults.headers.common['X-Auth'] = token.data
-				return svc.getUser()
+			.then(function(token) {	
+				return svc.startSession(token.data)
 			})
 	}
 
@@ -27,6 +26,14 @@ angular.module('toDo')
 		return $http.post('/api/user/register', data)
 	}
 
-	svc.startSession = function(token) {
+	svc.startSession = function(token, remember = true) {
+		$http.defaults.headers.common['X-Auth'] = token
+		if(remember){
+			window.localStorage.token = token
+		}
+		return svc.getUser()
+			.then(function(data){
+				return data
+			})
 	}
 }])

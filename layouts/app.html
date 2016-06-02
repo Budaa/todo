@@ -23,6 +23,7 @@
 		        <li ng-hide="currentUser"><a href="#/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                 <li ng-hide="currentUser"><a href="#/login"><span class="glyphicon glyphicon-log-in"></span> Sign In</a></li>
                 <li ng-show="currentUser"><a href="#/user">{{currentUser.email}}</a></li>
+                <li ng-show="currentUser"><a ng-click="logoutUser()">logout</a></li>
             </ul>
 	    </div>
 	</nav>
