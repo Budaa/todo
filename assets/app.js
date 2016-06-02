@@ -162,9 +162,9 @@ angular.module('toDo')
 	}
 
 	$scope.logOut = function() {
-		$scope.$emit('logOut')
 		userSrvc.logout()
-
+		$scope.$emit('logOut')
+		$location.path('/login')
 	}
 
 
