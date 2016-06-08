@@ -21,6 +21,7 @@ angular.module('toDo')
 
 	$scope.logoutUser = function(){
 		$scope.currentUser = ''
+		$scope.todo = {}
 		window.localStorage.token = ''
 		userSrvc.logout()
 		$location.path('/login')
@@ -59,13 +60,14 @@ angular.module('toDo')
 		String.prototype.trim = function () {
 	    	return this.replace(/^\s*/, "").replace(/\s*$/, "");
 		}
-		if (todo) {
-			todo.body.trim()
-		}
-		if( todo === undefined || todo.body === "") {
+		if( todo === undefined || todo.body === "" || todo.body === undefined) {
 			$scope.todoError.push("Todo can not be empty!")
 			return false
 		}
+		if (todo) {
+			todo.body.trim()
+		}
+
 
 		todo.until = parseInt(todo.until, 10)
 
@@ -92,6 +94,24 @@ angular.module('toDo')
 			})
 	}
 	
+	$scope.when = function(num) {
+		switch(num) {
+			case 0:
+				return "Today"
+				break
+			case 1:
+				return "Tomorrow"
+				break
+			case 2:
+				return "This week"
+				break
+			case 3:
+				return "Some day"
+				break
+			default:
+				return "Error occured"
+		}
+	}
 	
 	$scope.doneTodo = function(id, status) {
 		todoSrvc.done({id: id})
