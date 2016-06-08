@@ -13,6 +13,7 @@ angular.module('toDo')
 
 	$scope.logoutUser = function(){
 		$scope.currentUser = ''
+		$scope.todo = {}
 		window.localStorage.token = ''
 		userSrvc.logout()
 		$location.path('/login')
