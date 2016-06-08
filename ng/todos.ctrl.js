@@ -57,7 +57,10 @@ angular.module('toDo')
 			})
 	}
 	
-	$scope.when = function(num) {
+	$scope.when = function(num, done) {
+		if(done) {
+			return "Done"
+		}
 		switch(num) {
 			case 0:
 				return "Today"
@@ -103,7 +106,45 @@ angular.module('toDo')
 				$scope.todoError.push("There was a problem deleting todo")
 			})
 	}
-	
+
+
+	//Variables for daySeparator
+	$scope.isDisplayed = {
+		0: false,
+		1: false,
+		2: false,
+		3: false,
+		4: false
+	}
+	$scope.howManyTimesInvoked = 0
+	// return true if day separatot shoud be displayed
+	$scope.daySeparator = function(day, done) {
+		if($scope.howManyTimesInvoked > $scope.todos.length-1){
+			$scope.isDisplayed[0] = false
+			$scope.isDisplayed[1] = false
+			$scope.isDisplayed[2] = false
+			$scope.isDisplayed[3] = false
+			$scope.isDisplayed[4] = false
+			$scope.howManyTimesInvoked = 0
+		}
+		if(done) {
+			if(!$scope.isDisplayed[4]){
+				$scope.isDisplayed[4] = true
+				$scope.howManyTimesInvoked++
+				return true
+			}
+			$scope.howManyTimesInvoked++
+			return false
+		}
+		if(!$scope.isDisplayed[day]) {
+			$scope.isDisplayed[day] = true
+			$scope.howManyTimesInvoked++
+			return true
+		}
+		$scope.howManyTimesInvoked++
+		return false
+	}
+
 
 	if(!$scope.currentUser){
 		$scope.todoError.push('Please log in to see this section')

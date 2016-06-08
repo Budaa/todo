@@ -11,3 +11,9 @@
 .todo-each:first-of-type {
 	border: none;
 }
+
+.daySeparator {
+	border-bottom: 1px solid gray;
+	text-align: left;
+	margin-bottom: 10px;
+}

@@ -32,11 +32,13 @@
 	</form>
 	<div class="row">
 		<div class="col-sm-4 col-sm-offset-4 todo-main">
-			<div class="checkbox text-center todo-each" ng-repeat="todos in todos | orderBy:['done', 'until', '-date'] track by todos._id" ng-click="order(todos)">
+			<div class="text-center todo-each" ng-repeat="todos in todos | orderBy:['done', 'until', '-date'] track by todos._id" ng-click="order(todos)">
+			<div class="daySeparator" ng-show="daySeparator(todos.until, todos.done)">
+				{{when(todos.until, todos.done)}}
+			</div>
 			<label>
 				<input ng-checked="todos.done" type="checkbox" ng-click="doneTodo(todos._id, todos.done)">
 				{{todos.body}}<br />
-				{{when(todos.until)}}
 			</label>
 			<div class="row">
 				<div class="col-sm-4 col-sm-offset-8">
