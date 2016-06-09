@@ -108,40 +108,56 @@ angular.module('toDo')
 	}
 
 
-	//Variables for daySeparator
-	$scope.isDisplayed = {
-		0: false,
-		1: false,
-		2: false,
-		3: false,
-		4: false
-	}
-	$scope.howManyTimesInvoked = 0
-	// return true if day separatot shoud be displayed
-	$scope.daySeparator = function(day, done) {
-		if($scope.howManyTimesInvoked > $scope.todos.length-1){
-			$scope.isDisplayed[0] = false
-			$scope.isDisplayed[1] = false
-			$scope.isDisplayed[2] = false
-			$scope.isDisplayed[3] = false
-			$scope.isDisplayed[4] = false
-			$scope.howManyTimesInvoked = 0
+
+	/**
+	 * [daySeparator description]
+	 * Object created for separating days
+	 * @type {Object}
+	 */
+	$scope.daySeparator = {}
+	var daySeparator = $scope.daySeparator
+	/**
+	 * [Is separator for the day displayed already]
+	 * @type {Array}
+	 */
+	daySeparator.isDisplayed = [0,0,0,0,0]
+	/**
+	 * [how many times was function invoked
+	 * this variable helps to reset array state after re sorting todos array]
+	 * @type {Number}
+	 */
+	daySeparator.howManyTimesInvoked = 0
+	/**
+	 * daySeparator
+	 * Decide when to display day separator
+	 * @param  {[int]}   day  [0-3. Until from TODOS model]
+	 * @param  {[bool]} done [indicated if it's marked as done]
+	 * @return {[bool]}        [true for displaying day separator]
+	 */
+	daySeparator.shoudDisplay = function(day, done) {
+		if(this.howManyTimesInvoked > $scope.todos.length-1){
+			this.isDisplayed[0] = false
+			this.isDisplayed[1] = false
+			this.isDisplayed[2] = false
+			this.isDisplayed[3] = false
+			this.isDisplayed[4] = false
+			this.howManyTimesInvoked = 0
 		}
 		if(done) {
-			if(!$scope.isDisplayed[4]){
-				$scope.isDisplayed[4] = true
-				$scope.howManyTimesInvoked++
+			if(!this.isDisplayed[4]){
+				this.isDisplayed[4] = true
+				this.howManyTimesInvoked++
 				return true
 			}
-			$scope.howManyTimesInvoked++
+			this.howManyTimesInvoked++
 			return false
 		}
-		if(!$scope.isDisplayed[day]) {
-			$scope.isDisplayed[day] = true
-			$scope.howManyTimesInvoked++
+		if(!this.isDisplayed[day]) {
+			this.isDisplayed[day] = true
+			this.howManyTimesInvoked++
 			return true
 		}
-		$scope.howManyTimesInvoked++
+		this.howManyTimesInvoked++
 		return false
 	}
 
