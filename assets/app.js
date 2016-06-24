@@ -78,6 +78,7 @@ angular.module('toDo')
 		}).success(function(res){
 			$scope.todos.push(res)
 			$scope.todo.body = ""
+			$scope.sortTodos()
 		}).error(function(err){
 			$scope.todoError.push("There was a problem adding your post to the database and it wasn't saved")
 		})
@@ -91,6 +92,7 @@ angular.module('toDo')
 		todoSrvc.fetch(user)
 			.success(function(data) {
 				$scope.todos = data 
+				$scope.sortTodos()
 			}).error(function(err) {
 				$scope.todoError.push("There was a problem getting your data")				
 			})
@@ -123,7 +125,8 @@ angular.module('toDo')
 			.success(function(data){
 				for (var i=$scope.todos.length-1; i>=0; i--) {
     				if ($scope.todos[i]._id === data._id) {
-	        			$scope.todos[i].done = !status
+	        			$scope.todos[i].done = !$scope.todos[i].done
+	        			$scope.sortTodos()
 	        			break       
         			}
         		}
@@ -138,6 +141,7 @@ angular.module('toDo')
 				for (var i=$scope.todos.length-1; i>=0; i--) {
     				if ($scope.todos[i]._id === id) {
 	        			$scope.todos.splice(i, 1)
+	        			$scope.sortTodos()
 	        			break       
         			}
         		}
@@ -166,7 +170,7 @@ angular.module('toDo')
 		var day = 0
 		for (var i = 0; i <= $scope.todos.length-1 ; i++) {
 			day = $scope.todos[i].until
-			if($scope.todos[i].done){
+			if($scope.todos[i].done == true){
 				if(isDisplayed[4] === 0){
 					isDisplayed[4] = 1
 					$scope.todos[i].label = true
