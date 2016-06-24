@@ -44,6 +44,8 @@ angular.module('toDo')
 		}).error(function(err){
 			$scope.todoError.push("There was a problem adding your post to the database and it wasn't saved")
 		})
+
+
 	}
 
 
@@ -107,60 +109,47 @@ angular.module('toDo')
 			})
 	}
 
-
-
 	/**
-	 * [daySeparator description]
-	 * Object created for separating days
-	 * @type {Object}
+	 * [Sorts Todos object done, until and -date]
+	 * invokes setTodos function
 	 */
-	$scope.daySeparator = {}
-	var daySeparator = $scope.daySeparator
-	/**
-	 * [Is separator for the day displayed already]
-	 * @type {Array}
-	 */
-	daySeparator.isDisplayed = [0,0,0,0,0]
-	/**
-	 * [how many times was function invoked
-	 * this variable helps to reset array state after re sorting todos array]
-	 * @type {Number}
-	 */
-	daySeparator.howManyTimesInvoked = 0
-	/**
-	 * daySeparator
-	 * Decide when to display day separator
-	 * @param  {[int]}   day  [0-3. Until from TODOS model]
-	 * @param  {[bool]} done [indicated if it's marked as done]
-	 * @return {[bool]}        [true for displaying day separator]
-	 */
-	daySeparator.shoudDisplay = function(day, done) {
-		if(this.howManyTimesInvoked > $scope.todos.length-1){
-			this.isDisplayed[0] = false
-			this.isDisplayed[1] = false
-			this.isDisplayed[2] = false
-			this.isDisplayed[3] = false
-			this.isDisplayed[4] = false
-			this.howManyTimesInvoked = 0
-		}
-		if(done) {
-			if(!this.isDisplayed[4]){
-				this.isDisplayed[4] = true
-				this.howManyTimesInvoked++
-				return true
-			}
-			this.howManyTimesInvoked++
-			return false
-		}
-		if(!this.isDisplayed[day]) {
-			this.isDisplayed[day] = true
-			this.howManyTimesInvoked++
-			return true
-		}
-		this.howManyTimesInvoked++
-		return false
+	$scope.sortTodos = function(){
+		$scope.todos = $filter('orderBy')($scope.todos, ['done', 'until', '-date'])
+		setTodosLabels()
 	}
-
+	/**
+	 * [
+	 * Set todos.label
+	 * true for first of a kind
+	 * else false
+	 * ]
+	 */
+	var setTodosLabels = function() {
+		var isDisplayed = [0,0,0,0,0]
+		var day = 0
+		for (var i = 0; i <= $scope.todos.length-1 ; i++) {
+			day = $scope.todos[i].until
+			if($scope.todos[i].done){
+				if(isDisplayed[4] === 0){
+					isDisplayed[4] = 1
+					$scope.todos[i].label = true
+					continue
+				}else{
+					$scope.todos[i].label = false
+					continue
+				}
+			}
+			if(isDisplayed[day] === 0){
+				isDisplayed[day] = 1
+				$scope.todos[i].label = true
+				continue
+			}
+			if(isDisplayed[day] === 1) {
+				$scope.todos[i].label = false
+				continue
+			}
+		}
+	}
 
 	if(!$scope.currentUser){
 		$scope.todoError.push('Please log in to see this section')

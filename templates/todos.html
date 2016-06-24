@@ -2,6 +2,7 @@
 	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			{{error}}
 	</div>
+		<button type="button" class="btn btn-success" ng-click="sortTodos()">Sort</button>	
 	<form role="form" ng-show="currentUser">
 <!-- 	  <div class="form-group">
 	    <label for="email">Date:</label>
@@ -26,18 +27,18 @@
 	    </div>
 
 	    <br>
-
+		<!-- orderBy:['done', 'until', '-date'] -->
 	  	<button type="submit" class="btn btn-default" ng-click="createTodo(todo)">Add</button>
 	  </div>
 	</form>
-	<div class="row">
+	<div class="row" ngCloak>
 		<div class="col-sm-4 col-sm-offset-4 todo-main">
-			<div class="text-center todo-each" ng-repeat="todos in todos | orderBy:['done', 'until', '-date'] track by todos._id" ng-click="order(todos)">
-			<div class="daySeparator" ng-show="daySeparator.shoudDisplay(todos.until, todos.done)">
+			<div class="text-center todo-each" ng-repeat="todos in todos track by todos._id">
+			<div class="daySeparator" ng-show="todos.label">
 				{{when(todos.until, todos.done)}}
 			</div>
 			<label>
-				<input ng-checked="todos.done" type="checkbox" ng-click="doneTodo(todos._id, todos.done)">
+				<input ng-checked="todos.done" type="checkbox" ng-click="doneTodo(todos._id)">
 				{{todos.body}}<br />
 			</label>
 			<div class="row">
