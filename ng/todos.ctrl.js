@@ -50,6 +50,10 @@ angular.module('toDo')
 	}
 
 
+	/**
+	 * Get todos form database and push them into $scope.todos
+	 * @return {[null]} [nothing to return]
+	 */
 	$scope.getTodos = function() {
 		var user = $scope.currentUser.email
 		todoSrvc.fetch(user)
@@ -61,6 +65,12 @@ angular.module('toDo')
 			})
 	}
 	
+	/**
+	 * Returning todo deadline in human friendly format - function for sorting todos
+	 * @param  {[int]}   num  [0-3]
+	 * @param  {[bool]} done [pass if todo is done]
+	 * @return {[string]}        [daydline in human friendly form]
+	 */
 	$scope.when = function(num, done) {
 		if(done) {
 			return "Done"
@@ -83,7 +93,12 @@ angular.module('toDo')
 		}
 	}
 	
-	$scope.doneTodo = function(id, status) {
+	/**
+	 * Mark todo as done or unmark it. Sending changes to database and change it in local $scope
+	 * @param  {[todo]} id     [todo _id]
+	 * @return {[null]}        [nothing to return]
+	 */
+	$scope.doneTodo = function(id) {
 		todoSrvc.done({id: id})
 			.success(function(data){
 				for (var i=$scope.todos.length-1; i>=0; i--) {
@@ -98,6 +113,11 @@ angular.module('toDo')
 			})
 	}
 
+	/**
+	 * Delete todo from local scope and database
+	 * @param  {[todo]} id [todo _id]
+	 * @return {[null]}    [nothing to return]
+	 */
 	$scope.deleteTodo = function(id) {
 		todoSrvc.delete(id)
 			.success(function(data) {
@@ -155,6 +175,9 @@ angular.module('toDo')
 		}
 	}
 
+	/**
+	 * IF user logged in, get todos from database, otherwise display logIn error
+	 */
 	if(!$scope.currentUser){
 		$scope.todoError.push('Please log in to see this section')
 	}else {
