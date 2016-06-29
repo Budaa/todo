@@ -2,12 +2,7 @@
 	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			{{error}}
 	</div>
-		<button type="button" class="btn btn-success" ng-click="sortTodos()">Sort</button>	
 	<form role="form" ng-show="currentUser">
-<!-- 	  <div class="form-group">
-	    <label for="email">Date:</label>
-	    <input type="email" class="form-control" id="email" placeholder="dd/mm/yyyy">
-	  </div> -->
 	  <div class="form-group col-sm-8 col-sm-offset-2">
 	    <label for="body">ToDo</label>
 
@@ -27,7 +22,6 @@
 	    </div>
 
 	    <br>
-		<!-- orderBy:['done', 'until', '-date'] -->
 	  	<button type="submit" class="btn btn-default" ng-click="createTodo(todo)">Add</button>
 	  </div>
 	</form>
