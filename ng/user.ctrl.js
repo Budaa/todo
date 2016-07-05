@@ -56,4 +56,22 @@ angular.module('toDo')
 		
 	}
 
+//USER STATS
+	$scope.userStats = {}
+	var stats = $scope.userStats 
+	stats.getTodos = function(){
+		userSrvc.getStats($scope.currentUser.email)
+			.then(function(res){
+				stats.todos = res.data
+				return res.data
+			}, function(err) {
+				//Add error handling
+				console.log(err)
+			})
+	}
+	if($location.$$path == '/stats'){
+		stats.getTodos()
+	}
+
+
 }])

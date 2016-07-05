@@ -27,6 +27,7 @@ app.use(require('./controllers/static'))
 //TODO
 app.use('/api/todo', require('./controllers/api/todos'))
 app.use('/api/user', require('./controllers/api/users'))
+app.use('/api/user/stat', require('./controllers/api/stats'))
 // app.use('/api/session', require('./controllers/api/sessions'))
 
 

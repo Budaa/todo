@@ -36,4 +36,8 @@ angular.module('toDo')
 				return data
 			})
 	}
+
+	svc.getStats = function(email){
+		return $http.get('/api/user/stat/' + email)
+	}
 }])

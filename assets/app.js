@@ -33,6 +33,7 @@ angular.module('toDo')
 	  .when('/', {controller: 'TodosCtrl', templateUrl: 'todos.html'})
 	  .when('/register', {controller: 'UserCtrl', templateUrl: 'register.html'})
 	  .when('/login', {controller: 'UserCtrl', templateUrl: 'login.html'})
+	  .when('/stats', {controller: 'UserCtrl', templateUrl: 'stats.html'})
 	  .otherwise({redirectTo: '/'})
 })
 
@@ -299,6 +300,24 @@ angular.module('toDo')
 		
 	}
 
+//USER STATS
+	$scope.userStats = {}
+	var stats = $scope.userStats 
+	stats.getTodos = function(){
+		userSrvc.getStats($scope.currentUser.email)
+			.then(function(res){
+				stats.todos = res.data
+				return res.data
+			}, function(err) {
+				//Add error handling
+				console.log(err)
+			})
+	}
+	if($location.$$path == '/stats'){
+		stats.getTodos()
+	}
+
+
 }])
 angular.module('toDo')
 
@@ -337,5 +356,9 @@ angular.module('toDo')
 			.then(function(data){
 				return data
 			})
+	}
+
+	svc.getStats = function(email){
+		return $http.get('/api/user/stat/' + email)
 	}
 }])
